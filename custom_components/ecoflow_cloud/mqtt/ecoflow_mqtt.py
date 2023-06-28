@@ -17,7 +17,8 @@ from homeassistant.util import utcnow
 from reactivex import Subject, Observable
 
 from .utils import LimitedSizeOrderedDict
-from ..config.const import CONF_DEVICE_TYPE, CONF_DEVICE_ID, OPTS_REFRESH_PERIOD_SEC
+from ..config.const import CONF_DEVICE_TYPE, CONF_DEVICE_ID, OPTS_REFRESH_PERIOD_SEC, EcoflowModel
+from ..mqtt import Serial
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -247,8 +248,11 @@ class EcoflowMQTTClient:
 
     def on_message(self, client, userdata, message):
         try:
-            payload = message.payload.decode("utf-8")
-            raw = json.loads(payload)
+            if self.device_type == EcoflowModel.POWERSTREAM:
+                raw = Serial.parse_powerstream_heartbeat(message.payload)
+            else:
+                payload = message.payload.decode("utf-8")
+                raw = json.loads(payload)
 
             if message.topic == self._data_topic:
                 self.data.update_data(raw)

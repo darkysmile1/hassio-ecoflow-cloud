@@ -2,8 +2,10 @@ from typing import Any
 
 from homeassistant.components.sensor import (SensorDeviceClass, SensorStateClass)
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (PERCENTAGE, POWER_WATT, TEMP_CELSIUS, 
-                                 UnitOfElectricPotential, UnitOfElectricCurrent, UnitOfTime)
+from homeassistant.const import (PERCENTAGE,
+                                 UnitOfElectricCurrent, UnitOfElectricPotential,
+                                 UnitOfFrequency, UnitOfTime, UnitOfPower,
+                                 UnitOfTemperature)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -54,7 +56,7 @@ class RemainSensorEntity(BaseSensorEntity):
 class TempSensorEntity(BaseSensorEntity):
     _attr_device_class = SensorDeviceClass.TEMPERATURE
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_native_unit_of_measurement = TEMP_CELSIUS
+    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_native_value = -1
 
@@ -70,14 +72,14 @@ class VoltSensorEntity(BaseSensorEntity):
 class AmpSensorEntity(BaseSensorEntity):
     _attr_device_class = SensorDeviceClass.CURRENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_native_unit_of_measurement = UnitOfElectricCurrent.MILLIAMPERE 
+    _attr_native_unit_of_measurement = UnitOfElectricCurrent.MILLIAMPERE
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_native_value = 0
 
 
 class WattsSensorEntity(BaseSensorEntity):
     _attr_device_class = SensorDeviceClass.POWER
-    _attr_native_unit_of_measurement = POWER_WATT
+    _attr_native_unit_of_measurement = UnitOfPower.WATT
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_native_value = 0
 
@@ -101,3 +103,12 @@ class InVoltSensorEntity(VoltSensorEntity):
 
 class InAmpSensorEntity(AmpSensorEntity):
     _attr_icon = "mdi:transmission-tower-import"
+
+class SolarWattsSensorEntity(WattsSensorEntity):
+    _attr_icon = "mdi:mdi:solar-power"
+
+class FrequencySensorEntity(BaseSensorEntity):
+    _attr_device_class = SensorDeviceClass.FREQUENCY
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+    _attr_native_unit_of_measurement = UnitOfFrequency.HERTZ
+    _attr_state_class = SensorStateClass.MEASUREMENT
