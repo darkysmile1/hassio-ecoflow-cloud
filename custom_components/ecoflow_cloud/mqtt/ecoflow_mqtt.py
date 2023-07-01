@@ -248,7 +248,7 @@ class EcoflowMQTTClient:
 
     def on_message(self, client, userdata, message):
         try:
-            if self.device_type == "POWERSTREAM"
+            if self.device_type == "POWERSTREAM":
                 raw = Serial.parse_powerstream_heartbeat(message.payload)
             else:
                 payload = message.payload.decode("utf-8")
