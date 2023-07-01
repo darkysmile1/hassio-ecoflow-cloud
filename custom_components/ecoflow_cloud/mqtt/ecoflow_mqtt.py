@@ -139,12 +139,17 @@ class EcoflowDataHolder:
         return self.set_commands[cmd_id]
 
     def add_set_command_reply(self, cmd: dict[str, Any]) -> EcoflowCommandInfo | None:
+        if 'id' in cmd:
+            cmd_id = int(cmd["id"])
         cmd_id = int(cmd["id"])
         if cmd_id in self.set_commands:
             cmd_info = self.set_commands[cmd_id]
             cmd_info.reply = cmd
             return cmd_info
-
+        else:
+            _LOGGER.warning("Key 'id' not found in cmd dictionary.")
+            # Verhalten, wenn 'id' nicht vorhanden ist
+            return None
     def add_get_command(self, target_state: dict[str, Any] | None, cmd: dict[str, Any]):
         cmd_id = int(cmd["id"])
         if id not in self.get_commands:
