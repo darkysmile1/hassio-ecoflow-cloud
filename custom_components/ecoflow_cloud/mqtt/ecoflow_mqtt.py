@@ -266,7 +266,7 @@ class EcoflowMQTTClient:
             elif message.topic == self._get_reply_topic:
                 self.data.add_get_command_reply(raw)
         except UnicodeDecodeError as error:
-            _LOGGER.error(f"UnicodeDecodeError: {error}. Ignoring message and waiting for the next one. Fehler aufgetreten bei {self.device_type}")
+            _LOGGER.error(f"UnicodeDecodeError: {error}. Ignoring message and waiting for the next one. Fehler aufgetreten bei {self.device_type} Type {EcoflowModel.POWERSTREAM}")
 
     message_id = 999900000 + random.randint(10000, 99999)
 
