@@ -26,7 +26,7 @@ def _to_int_ex(div: int = 1):
     return f
 
 def _to_uint(data: bytes):
-    return struct.unpack('B', data[0])[0]
+    return struct.unpack('B', data)[0]
 
 def _to_utf8(data: bytes):
     try:
